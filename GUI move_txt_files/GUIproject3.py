@@ -10,6 +10,7 @@
 
 import tkinter
 from tkinter import *
+from tkinter import filedialog as tk
 import GUIfunction3
 
 class ParentWindow(Frame):
@@ -22,8 +23,7 @@ class ParentWindow(Frame):
         self.master.geometry('{}x{}'.format(700, 250))
         self.master.title('Check for Files')
         self.master.config(bg='lightgrey')
-        GUIfunction3.center_window(self,700,250)
-
+        
         self.varDir1 = StringVar()
         self.varDir1.set("Select a source directory")
         self.varDir2 = StringVar()
@@ -34,19 +34,37 @@ class ParentWindow(Frame):
         self.txtDir2 = Entry(self.master,textvariable=self.varDir2, font=("Helvetica",16), fg='black', bg='white', bd=0, relief=SUNKEN)
         self.txtDir2.grid(row = 1, column = 1, columnspan=2, rowspan=1, sticky = W+E, padx=(10,0), pady=(20,0))
 
-        self.btnSelect1 = Button(self.master, text="Select", width=15, height=2, bg='lightgrey', highlightbackground="lightgrey", relief=RAISED, command=lambda:GUIfunction3.select1(self))
+        self.btnSelect1 = Button(self.master, text="Select", width=15, height=2, bg='lightgrey', highlightbackground="lightgrey", relief=RAISED, command=self.select1)
         self.btnSelect1.grid(row = 0, column = 0, padx=(25,10),pady=(50,0), sticky=NE)
-        self.btnSelect2 = Button(self.master, text="Select", width=15, height=2, bg='lightgrey', highlightbackground="lightgrey", relief=RAISED, command=lambda:GUIfunction3.select2(self))
+        self.btnSelect2 = Button(self.master, text="Select", width=15, height=2, bg='lightgrey', highlightbackground="lightgrey", relief=RAISED, command=self.select2)
         self.btnSelect2.grid(row = 1, column = 0, padx=(25,10),pady=(20,0), sticky=NE)
 
-        self.btnMove = Button(self.master, text="Move all text files", width=15, height=3, bg='lightgrey', highlightbackground="lightgrey", relief=RAISED, command=lambda:GUIfunction3.transfer(self))
+        self.btnMove = Button(
+            self.master, text="Move all text files", width=15, height=3, bg='lightgrey',
+            highlightbackground="lightgrey", relief=RAISED, command=lambda:GUIfunction3.transfer(self)
+        )
         self.btnMove.grid(row = 2, column = 0, padx=(25,10),pady=(20,0), sticky=NE)
 
-        self.btnClose = Button(self.master, text="Close Program", width=15, height=3, bg='lightgrey', highlightbackground="lightgrey", relief=RAISED, command=lambda: GUIfunction3.close(self))
+        self.btnClose = Button(
+            self.master, text="Close Program", width=15, height=3, bg='lightgrey',
+            highlightbackground="lightgrey", relief=RAISED, command=lambda:GUIfunction3.close(self)
+        )
         self.btnClose.grid(row = 2, column = 2, padx=(350,0),pady=(20,0), sticky=NE)
+
+    def select1(self):
+        tk.dirName = tk.askdirectory(initialdir = "../",title = "Select Folder")
+        varDir1 = tk.dirName
+        self.varDir1.set(varDir1)
+
+    def select2(self):
+        tk.dirName = tk.askdirectory(initialdir = "../",title = "Select Folder")
+        varDir2 = tk.dirName
+        self.varDir2.set(varDir2)
+
 
 
 if __name__ == "__main__":
     root = Tk()
     App = ParentWindow(root)
+    GUIfunction3.center_window(App,700,250)
     root.mainloop() #without this, the window will just pop open and then close
